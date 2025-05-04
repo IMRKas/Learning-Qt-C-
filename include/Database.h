@@ -3,7 +3,7 @@
 
 #include <sqlite3.h>
 
-void createTable(sqlite3* db);
+void createTable();
 
 
 

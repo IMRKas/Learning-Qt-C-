@@ -1,5 +1,7 @@
 #include <QApplication>
+#include <QDir>
 #include <QSqlDatabase>
+#include <QSqlError>
 #include <QMessageBox>
 #include <sqlite3.h>
 #include <iostream>
@@ -10,16 +12,16 @@
 
 int main(int argc, char *argv[]){
 	QApplication app(argc,argv);
+	QDir().mkpath("db");
+	QSqlDatabase  db = QSqlDatabase::addDatabase("QSQLITE");
+	db.setDatabaseName("db/tasks.db");
 
-	sqlite3* db;
-	int rc = sqlite3_open("db/tasks.db", &db);
-	if(rc != SQLITE_OK){
-		std::cerr << "ERROR OPENING DATABASE: " << sqlite3_errmsg(db) << std::endl;
-		QMessageBox::critical(nullptr, "ERROR", QString("ERROR OPENING DATABASE:\n%1").arg(sqlite3_errmsg(db)));
-		return -1;
+	if(!db.open()){
+		QMessageBox::critical(nullptr,"ERRO","Erro ao abrir banco de dados\n" + db.lastError().text());
+			return -1;
 	}
 
-	createTable(db);
+	createTable();
 
 	// MainWindow mainW(db);
 	// mainW.show();
@@ -29,7 +31,5 @@ int main(int argc, char *argv[]){
 
 
 
-	int appExec = app.exec();
-	sqlite3_close(db);
-	return appExec;
+	return app.exec();
 }
