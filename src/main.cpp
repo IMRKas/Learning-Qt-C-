@@ -5,8 +5,7 @@
 #include <QMessageBox>
 #include <sqlite3.h>
 #include <iostream>
-//#include "MainWindow.h"
-#include "TaskForm.h"
+#include "MainWindow.h"
 #include "Database.h"
 
 
@@ -23,13 +22,8 @@ int main(int argc, char *argv[]){
 
 	createTable();
 
-	// MainWindow mainW(db);
-	// mainW.show();
-
-	TaskForm newForm;
-	newForm.show();
-
-
+    MainWindow mainW;
+	mainW.show();
 
 	return app.exec();
 }
