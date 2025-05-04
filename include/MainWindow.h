@@ -17,6 +17,7 @@ class MainWindow : public QWidget {
 		MainWindow(QWidget* parent = nullptr);
 
 		void loadTasks();
+		void deleteTask();
 
 
 
@@ -24,13 +25,13 @@ class MainWindow : public QWidget {
 
 	private:
 		// Buttons
-		QPushButton* newTask{nullptr};
-		QPushButton* editTask{nullptr};
-		QPushButton* completeTask{nullptr};
-		QPushButton* deleteTask{nullptr};
+		QPushButton* newTaskBtn{nullptr};
+		QPushButton* editTaskBtn{nullptr};
+		QPushButton* completeTaskBtn{nullptr};
+		QPushButton* deleteTaskBtn{nullptr};
 
 			// Search "button"
-			QLineEdit* searchTask{nullptr};
+			QLineEdit* searchTaskLe{nullptr};
 
 	
 		// Layouts
