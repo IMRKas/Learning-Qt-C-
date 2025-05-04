@@ -4,7 +4,9 @@ QT += sql core gui widgets
 INCLUDEPATH =+ include
 SOURCES += src/main.cpp \
 		   src/mainWindow.cpp \
-		   src/taskForm.cpp
+		   src/taskForm.cpp \
+		   src/database.cpp
 
 HEADERS += include/MainWindow.h \
-		   include/TaskForm.h
+		   include/TaskForm.h \
+		   include/Database.h
