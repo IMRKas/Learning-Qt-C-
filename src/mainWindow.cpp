@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QHeaderView>
 
 MainWindow::MainWindow(QWidget* parent) : QWidget(parent){
 	setWindowTitle("Gerenciado de Tarefas");
@@ -34,6 +35,8 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent){
 // ---------------------------------------------------------------------------------------- //
 
 	// Connects
+		// Complete Task
+		connect(completeTaskBtn, &QPushButton::clicked, this, &MainWindow::completeTask);
 		// Delete Task
 		connect(deleteTaskBtn, &QPushButton::clicked, this, &MainWindow::deleteTask);
 		
@@ -74,6 +77,15 @@ void MainWindow::loadTasks(){
 	model->setHeaderData(4,Qt::Horizontal,"Status");
 
 	tableView->resizeColumnsToContents();
+	tableView->resizeRowsToContents();
+	tableView->setWordWrap(true);
+
+	QHeaderView* header = tableView->horizontalHeader();
+	header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+	header->setSectionResizeMode(1, QHeaderView::Stretch);
+	header->setSectionResizeMode(2, QHeaderView::Stretch);
+	header->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+	header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 }
 
 void MainWindow::deleteTask(){
@@ -97,6 +109,31 @@ void MainWindow::deleteTask(){
 			return;
 		} else {
 			QMessageBox::information(this,"SUCESSO","Tarefa excluida com sucesso.");
+			loadTasks();
+		}
+	}
+}
+
+void MainWindow::completeTask(){
+	QModelIndex selectedRow = tableView->currentIndex();
+	if(!selectedRow.isValid()){
+		QMessageBox::information(this, "Atenção", "Selecione uma tarefa para mudar o status.");
+		return;
+	}
+
+	if(QMessageBox::question(this, "Atenção", "Deseja alterar status da tarefa para \"Concluida\" ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes){
+		int taskID = model->data(model->index(selectedRow.row(),0)).toInt();
+
+		QSqlQuery completeQuery;
+		completeQuery.prepare("UPDATE tasks SET status = ? WHERE id = ?;");
+		completeQuery.addBindValue(DbStatus::concluida); // namespace is defined in TaskForm.h
+		completeQuery.addBindValue(taskID);
+
+		if(!completeQuery.exec()){
+			QMessageBox::critical(this, "ERRO", "Erro ao alterar status da tarefa:\n" + completeQuery.lastError().text());
+			return;
+		} else {
+			QMessageBox::information(this, "Sucesso", "Tarefa concluida com sucesso.");
 			loadTasks();
 		}
 	}

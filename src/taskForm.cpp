@@ -62,7 +62,7 @@ TaskForm::TaskForm(QWidget* parent) : QWidget(parent){
 					insertQuery.addBindValue(taskTitle->text());
 					insertQuery.addBindValue((taskDescription->toPlainText().isEmpty()) ? QVariant(QVariant::String) : QVariant(taskDescription->toPlainText()));
 					insertQuery.addBindValue(taskDL->date().toString("yyyy-MM-dd"));
-					insertQuery.addBindValue(taskStatus->currentData().toString());
+					insertQuery.addBindValue(taskStatus->currentData().toString().toLower());
 
 					if(!insertQuery.exec()){
 						QMessageBox::critical(this, "ERRO", "Erro ao adicionar tarefa:\n" + insertQuery.lastError().text());
@@ -83,9 +83,9 @@ TaskForm::TaskForm(QWidget* parent) : QWidget(parent){
 		taskDL->setLocale(QLocale(QLocale::Portuguese, QLocale::Brazil));
 
 		// ComboBox
-		taskStatus->addItem(Status::Pending, "pendente");
-		taskStatus->addItem(Status::Completed, "concluida");
-		taskStatus->addItem(Status::InProgress, "em_andamento");
+		taskStatus->addItem(Status::Pending, DbStatus::pendente); 
+		taskStatus->addItem(Status::Completed, DbStatus::concluida);
+		taskStatus->addItem(Status::InProgress, DbStatus::emAndamento);
 
 			// dateStatusRow
 			comboBox = new QLabel("Status");

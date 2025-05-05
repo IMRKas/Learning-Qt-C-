@@ -18,6 +18,7 @@ class MainWindow : public QWidget {
 
 		void loadTasks();
 		void deleteTask();
+		void completeTask();
 
 
 

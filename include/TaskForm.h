@@ -11,7 +11,14 @@
 #include <QHBoxLayout>
 #include <QFormLayout>
 #include <QLabel>
+#include <string>
 
+namespace DbStatus {
+	const QString pendente = "pendente";
+	const QString concluida = "concluida";
+	const QString emAndamento = "em_andamento";
+}
+	
 
 class QPushButton;
 
