@@ -14,9 +14,9 @@
 #include <string>
 
 namespace DbStatus {
-	const QString pendente = "pendente";
-	const QString concluida = "concluida";
-	const QString emAndamento = "em_andamento";
+	const QString pending = "pendente";
+	const QString completed = "concluida";
+	const QString inProgress = "em_andamento";
 }
 	
 
@@ -27,6 +27,7 @@ class TaskForm : public QWidget {
 	public:
 		//Constructors
 		TaskForm(QWidget* parent = nullptr);
+		TaskForm(int taskID, QWidget* parent = nullptr);
 
 	
 	private:
@@ -44,7 +45,7 @@ class TaskForm : public QWidget {
 		// Form Fields
 		QLineEdit* taskTitle;
 		QTextEdit* taskDescription;
-		QDateEdit* taskDL;
+		QDateEdit* taskDeadLine;
 		QComboBox* taskStatus;
 
 		// Labels

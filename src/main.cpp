@@ -14,12 +14,10 @@ int main(int argc, char *argv[]){
 	QDir().mkpath("db");
 	QSqlDatabase  db = QSqlDatabase::addDatabase("QSQLITE");
 	db.setDatabaseName("db/tasks.db");
-
 	if(!db.open()){
 		QMessageBox::critical(nullptr,"ERRO","Erro ao abrir banco de dados\n" + db.lastError().text());
 			return -1;
 	}
-
 	createTable();
 
     MainWindow mainW;

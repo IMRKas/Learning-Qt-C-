@@ -54,6 +54,26 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent){
 				}
 		});
 
+		// Edit Task
+		connect(editTaskBtn, &QPushButton::clicked, this, [=](){
+				QModelIndex selectedRow = tableView->currentIndex();
+				if(!selectedRow.isValid()){
+					QMessageBox::information(this, "Atenção", "Selecione uma linha para editar.");
+					return;
+					}
+				int taskID = model->data(model->index(selectedRow.row(),0)).toInt();
+				
+				if(!newTaskForm){
+				newTaskForm = new TaskForm(taskID);
+				newTaskForm->show();
+
+				connect(newTaskForm, &QObject::destroyed, this, [this](){
+						this->newTaskForm = nullptr;
+						loadTasks();
+						});
+				}
+				});
+
 // ---------------------------------------------------------------------------------------- //
 	// Aux settings
 		// Table View
@@ -126,7 +146,7 @@ void MainWindow::completeTask(){
 
 		QSqlQuery completeQuery;
 		completeQuery.prepare("UPDATE tasks SET status = ? WHERE id = ?;");
-		completeQuery.addBindValue(DbStatus::concluida); // namespace is defined in TaskForm.h
+		completeQuery.addBindValue(DbStatus::completed); // namespace is defined in TaskForm.h
 		completeQuery.addBindValue(taskID);
 
 		if(!completeQuery.exec()){
