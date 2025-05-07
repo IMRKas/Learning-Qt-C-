@@ -9,6 +9,7 @@
 #include <QTableView>
 #include <QSqlQueryModel>
 #include <QModelIndex>
+#include <QComboBox>
 
 class MainWindow : public QWidget {
 	Q_OBJECT
@@ -19,6 +20,8 @@ class MainWindow : public QWidget {
 		void loadTasks();
 		void deleteTask();
 		void completeTask();
+		void filterTasksByStatus();
+		void searchTaskByAnyColumn();
 
 
 
@@ -30,6 +33,7 @@ class MainWindow : public QWidget {
 		QPushButton* editTaskBtn{nullptr};
 		QPushButton* completeTaskBtn{nullptr};
 		QPushButton* deleteTaskBtn{nullptr};
+		QComboBox* statusFilter{nullptr};
 
 			// Search "button"
 			QLineEdit* searchTaskLe{nullptr};

@@ -19,6 +19,11 @@ namespace DbStatus {
 	const QString inProgress = "em_andamento";
 }
 	
+namespace Status {
+	const QString Pending = "Pendente";
+	const QString Completed = "Concluída";
+	const QString InProgress = "Em andamento";
+}
 
 class QPushButton;
 

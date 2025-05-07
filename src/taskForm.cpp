@@ -4,13 +4,6 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-
-namespace Status {
-	const QString Pending = "Pendente";
-	const QString Completed = "Concluída";
-	const QString InProgress = "Em andamento";
-}
-
 TaskForm::TaskForm(int taskID, QWidget* parent) : QWidget(parent){
 	setWindowTitle("Editar Tarefa");
 	setAttribute(Qt::WA_DeleteOnClose);
@@ -63,9 +56,9 @@ TaskForm::TaskForm(int taskID, QWidget* parent) : QWidget(parent){
 		taskTitle->setText(loadTaskData.value(0).toString());
 		taskDescription->setText((loadTaskData.value(1).isNull()) ? "" : loadTaskData.value(1).toString());
 		taskDeadLine->setDate(QDate::fromString(loadTaskData.value(2).toString(), "yyyy-MM-dd"));
-		if(loadTaskData.value(3).toString() == Db::pending){
+		if(loadTaskData.value(3).toString() == DbStatus::pending){
 			taskStatus->setCurrentText(Status::Pending);
-		} else if (loadTaskData.value(3).toString() == Db::completed) {
+		} else if (loadTaskData.value(3).toString() == DbStatus::completed) {
 			taskStatus->setCurrentText(Status::Completed);
 		} else {
 			taskStatus->setCurrentText(Status::InProgress);
